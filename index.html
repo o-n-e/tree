@@ -9,24 +9,56 @@
 <body ng-app="bin">
 
   <div ng-controller="DemoCtrl as demo">
-    <h3>Available Fields</h3>
+    <h4>1. List the field hierarchy as a tree</h4>
     <div ivh-treeview="demo.stuff">
     </div>
 
     <div>
+      <h4>2. Add a button to be able to choose all checked fields</h4>
       <button ng-click="demo.chooseFields('theend')">+</button>
     </div>
 
-    <pre>{{nodesToSelect}}</pre>
+    <div>
+      <h4>3. Show checked</h4>
+      <pre>{{selectedFields}}</pre>
+    </div>
 
     <div>
-      <h3>Chosen Fields</h3>
-      <select multiple name="chosenFields" id="chosenFields" ng-model="nodesToSelect" size=5 style='width: 100px;'>
-        <option ng-repeat="node in nodesToSelect" value="{{node.id}}">{{node.label}}</option>
+      <h4>4. Show all selected fields</h4>
+      <select name="selectedFields"
+          multiple
+          ng-model="selectedField"
+          ng-change="getSelectedField(selectedField)"
+          style="width:100px">
+        <option ng-repeat="node in selectedFields" value="{{node.id}}">{{node.label}}</option>
       </select>
     </div>
 
-  </div>
+    <div>
+      <h4>5. Add a button to be able to remove a field</h4>
+      <button ng-click="removeField('aaa')">-</button>
+    </div>
+
+    <div>
+      <h4>6. Show all available value for current selected field</h4>
+      <select name="selectedFieldsAvailableValues"
+          multiple
+          ng-model="selectedFieldsAvailableValues"
+          style="width:100px">
+        <option ng-repeat="value in selectedFieldsAvailableValues" value="{{value}}">{{value}}</option>
+      </select>
+    </div>
+<!--
+ng-change="getSelectedField(selectedField)"
+data-ng-options="blisterPackTemplate as blisterPackTemplate.name for blisterPackTemplate in blisterPackTemplates"
+    <div>
+      <h3>Available Values</h3>
+      <select name="availableValues" multiple onchange="console.log('sss')" style="width:100px">
+        <option ng-repeat="val in availableVals" value="{{val}">{{val}}</option>
+      </select>
+    </div>
+-->
+</div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
   <script src="node_modules/angular-ivh-treeview/dist/ivh-treeview.js"></script>
