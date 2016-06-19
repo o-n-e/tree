@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>JS Bin</title>
+  <link rel="stylesheet" href="node_modules/angular-ivh-treeview/dist/ivh-treeview.css">
+  <link rel="stylesheet" href="node_modules/angular-ivh-treeview/dist/ivh-treeview-theme-basic.css">
+</head>
+<body ng-app="bin">
+
+  <div ng-controller="DemoCtrl as demo">
+    <h3>Available Fields</h3>
+    <div ivh-treeview="demo.stuff">
+    </div>
+
+    <div>
+      <button ng-click="demo.chooseFields('theend')">+</button>
+    </div>
+
+    <pre>{{nodesToSelect}}</pre>
+
+    <div>
+      <h3>Chosen Fields</h3>
+      <select multiple name="chosenFields" id="chosenFields" ng-model="nodesToSelect" size=5 style='width: 100px;'>
+        <option ng-repeat="node in nodesToSelect" value="{{node.id}}">{{node.label}}</option>
+      </select>
+    </div>
+
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+  <script src="node_modules/angular-ivh-treeview/dist/ivh-treeview.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
