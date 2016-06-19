@@ -83,6 +83,25 @@ app.controller('DemoCtrl', function (ivhTreeviewBfs, ivhTreeviewMgr, $scope, $ti
   $scope.filter = []
   $scope.currentField = ''
 
+  $scope.cleanup = function () {
+    for (var x = 0; x < $scope.filter.length; x++) {
+      console.log('$scope.filter[x]: ' + $scope.filter[x])
+      var fnd = false
+      for (var y = 0; y < $scope.selectedFields.length; y++) {
+        console.log('$scope.selectedFields[y]: ' + $scope.selectedFields[y])
+        if ($scope.selectedFields[y] === $scope.filter[x].id) {
+          fnd = true
+          console.log('fnd')
+        }
+        if (fnd !== true) {
+          console.log('not fnd')
+          $scope.filter.splice(x, 1)
+          break
+        }
+      }
+    }
+  }
+
   $scope.chooseFields = function (id) {
     $scope.selectedFields = []
 
@@ -94,6 +113,7 @@ app.controller('DemoCtrl', function (ivhTreeviewBfs, ivhTreeviewMgr, $scope, $ti
         }
       }
     })
+    $scope.cleanup()
   }
 
   $scope.getSelectedFieldsValues = function (selectedField) {
