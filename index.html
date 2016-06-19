@@ -43,7 +43,8 @@
       <h4>6. Show all available value for current selected field</h4>
       <select name="selectedFieldsAvailableValues"
           multiple
-          ng-model="selectedFieldsAvailableValues"
+          ng-model="selectedFieldsAvailableValue"
+          ng-change="addValueToFilter(selectedFieldsAvailableValue)"
           style="width:100px">
         <option ng-repeat="value in selectedFieldsAvailableValues" value="{{value}}">{{value}}</option>
       </select>
@@ -52,6 +53,11 @@
     <div>
       <h4>7. Value cache</h4>
       <pre>{{valueCache}}</pre>
+    </div>
+
+    <div>
+      <h4>8. Filter</h4>
+      <pre>{{filter}}</pre>
     </div>
 
 </div>

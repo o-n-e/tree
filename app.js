@@ -80,6 +80,8 @@ app.controller('DemoCtrl', function (ivhTreeviewBfs, ivhTreeviewMgr, $scope, $ti
   $scope.dataCache = dataCache
   $scope.selectedFieldsAvailableValues = []
   $scope.valueCache = []
+  $scope.filter = []
+  $scope.currentField = ''
 
   $scope.chooseFields = function (id) {
     $scope.selectedFields = []
@@ -95,6 +97,7 @@ app.controller('DemoCtrl', function (ivhTreeviewBfs, ivhTreeviewMgr, $scope, $ti
   }
 
   $scope.getSelectedFieldsValues = function (selectedField) {
+    $scope.currentField = selectedField[0]
     console.log(selectedField)
     $scope.selectedFieldsAvailableValues = []
     var foundInCache = false
@@ -129,8 +132,48 @@ app.controller('DemoCtrl', function (ivhTreeviewBfs, ivhTreeviewMgr, $scope, $ti
     }
   }
 
-  $scope.addValue = function (vl) {
-    alert('addValue' + vl)
+  $scope.addValueToFilter = function (valueToAdd) {
+    console.log('currentField: ' + $scope.currentField)
+    console.log('valueToAdd: ' + valueToAdd)
+    var fieldFound = false
+    var valFound = false
+
+    console.log('$scope.filter.length: ' + $scope.filter.length)
+
+    for (var i = 0; i < $scope.filter.length; i++) {
+      console.log('$scope.filter[i].id: ' + $scope.filter[i].id)
+      var filterField = $scope.filter[i].id
+      console.log('filterField: ' + filterField)
+      if (filterField === $scope.currentField) {
+        fieldFound = true
+        console.log('fieldFound')
+        console.log('$scope.filter[i].values.length: ' + $scope.filter[i].values.length)
+        for (var j = 0; j < $scope.filter[i].values.length; j++) {
+          var theValue = $scope.filter[i].values[j]
+          console.log('theValue: ' + theValue)
+          if (theValue == valueToAdd) {
+            valFound = true
+            console.log('valFound')
+            break
+          }
+        }
+      }
+    }
+    // if fieldFound = false then add it with the value
+    if (fieldFound === false) {
+      console.log('pushing field')
+      $scope.filter.push({id: $scope.currentField, values: [valueToAdd[0]]})
+    }
+
+    // if fieldFound is true and value is false add value to fieldFound
+    if (fieldFound === true && valFound === false) {
+      for (var k = 0; k < $scope.filter.length; k++) {
+        if ($scope.filter[k].id === $scope.currentField) {
+          console.log('pushing value')
+          $scope.filter[k].values.push(valueToAdd[0])
+        }
+      }
+    }
   }
 
   $scope.removeField = function (field) {
