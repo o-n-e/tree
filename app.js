@@ -76,14 +76,15 @@ app.config(function (ivhTreeviewOptionsProvider) {
 })
 
 app.controller('DemoCtrl', function (ivhTreeviewBfs, ivhTreeviewMgr, $scope, $timeout) {
-  this.stuff = stuff
-  this.dataCache = dataCache
-  this.selectedFieldsAvailableValues = []
+  $scope.stuff = stuff
+  $scope.dataCache = dataCache
+  $scope.selectedFieldsAvailableValues = []
+  $scope.valueCache = []
 
-  this.chooseFields = function (id) {
+  $scope.chooseFields = function (id) {
     $scope.selectedFields = []
 
-    ivhTreeviewBfs(stuff, function (node) {
+    ivhTreeviewBfs($scope.stuff, function (node) {
       if (!node.children) {
         if (node.selected) {
           console.log(node.id)
@@ -93,23 +94,43 @@ app.controller('DemoCtrl', function (ivhTreeviewBfs, ivhTreeviewMgr, $scope, $ti
     })
   }
 
-  $scope.getSelectedField = function (selectedField) {
+  $scope.getSelectedFieldsValues = function (selectedField) {
     console.log(selectedField)
+    $scope.selectedFieldsAvailableValues = []
+    var foundInCache = false
 
     var myObj = {}
-
-    for (var a = 0; a < dataCache.length; a++) {
-      console.log('a: ' + a)
-
-      myObj = dataCache[a]
-      console.log('myObj.id: ' + myObj.id)
-      console.log('selectedField[0]: ' + selectedField[0])
+    // get from the cache or fetch from db and add to it
+    for (var i = 0; i < $scope.valueCache.length; i++) {
+      myObj = $scope.valueCache[i]
       if (myObj.id === selectedField[0]) {
-        console.log('found')
-        this.selectedFieldsAvailableValues = dataCache[a].vals
+        console.log('found in cache')
+        foundInCache = true
+        $scope.selectedFieldsAvailableValues = $scope.valueCache[i].vals
         break
       }
     }
+
+    if (foundInCache === false) {
+      for (var a = 0; a < $scope.dataCache.length; a++) {
+        console.log('a: ' + a)
+
+        myObj = $scope.dataCache[a]
+        console.log('myObj.id: ' + myObj.id)
+        console.log('selectedField[0]: ' + selectedField[0])
+        if (myObj.id === selectedField[0]) {
+          console.log('found in db')
+          $scope.selectedFieldsAvailableValues = $scope.dataCache[a].vals
+          console.log('adding to valueCache')
+          $scope.valueCache.push($scope.dataCache[a])
+          break
+        }
+      }
+    }
+  }
+
+  $scope.addValue = function (vl) {
+    alert('addValue' + vl)
   }
 
   $scope.removeField = function (field) {

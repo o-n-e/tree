@@ -10,12 +10,12 @@
 
   <div ng-controller="DemoCtrl as demo">
     <h4>1. List the field hierarchy as a tree</h4>
-    <div ivh-treeview="demo.stuff">
+    <div ivh-treeview="stuff">
     </div>
 
     <div>
       <h4>2. Add a button to be able to choose all checked fields</h4>
-      <button ng-click="demo.chooseFields('theend')">+</button>
+      <button ng-click="chooseFields('theend')">+</button>
     </div>
 
     <div>
@@ -28,7 +28,7 @@
       <select name="selectedFields"
           multiple
           ng-model="selectedField"
-          ng-change="getSelectedField(selectedField)"
+          ng-change="getSelectedFieldsValues(selectedField)"
           style="width:100px">
         <option ng-repeat="node in selectedFields" value="{{node.id}}">{{node.label}}</option>
       </select>
@@ -48,16 +48,12 @@
         <option ng-repeat="value in selectedFieldsAvailableValues" value="{{value}}">{{value}}</option>
       </select>
     </div>
-<!--
-ng-change="getSelectedField(selectedField)"
-data-ng-options="blisterPackTemplate as blisterPackTemplate.name for blisterPackTemplate in blisterPackTemplates"
+
     <div>
-      <h3>Available Values</h3>
-      <select name="availableValues" multiple onchange="console.log('sss')" style="width:100px">
-        <option ng-repeat="val in availableVals" value="{{val}">{{val}}</option>
-      </select>
+      <h4>7. Value cache</h4>
+      <pre>{{valueCache}}</pre>
     </div>
--->
+
 </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
